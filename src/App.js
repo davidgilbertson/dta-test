@@ -29,15 +29,52 @@ const Bar = (props) => {
 const BarWrapper = (props) => {
   return (
     <div className="BarWrapper">
-      {props.barValues.map(barValue => (
+      {props.barValues.map((barValue, i) => (
         <Bar
-          key={barValue}
+          key={i} // the key must be the index since there could be two identical values
           value={barValue}
         />
       ))}
     </div>
   )
 };
+
+const ValueIncrementer = (props) => {
+  return (
+    <button
+      onClick={() => props.changeCurrentBarValue(props.value)}
+    >
+      {props.value}
+    </button>
+  )
+};
+
+const ValueIncrementerWrapper = (props) => {
+  return (
+    <div className="BarWrapper">
+      {props.buttonValues.map((buttonValue, i) => (
+        <ValueIncrementer
+          key={i} // the key must be the index since there could be two identical values
+          value={buttonValue}
+          changeCurrentBarValue={props.changeCurrentBarValue}
+        />
+      ))}
+    </div>
+  )
+};
+
+function filterOutNonNumbers(buttonValues) {
+  return buttonValues
+    .map(value => {
+      if (isNaN(Number(value))) {
+        console.warn('Expected a number, but got', value);
+
+        return null;
+      }
+      return value;
+    })
+    .filter(value => !!value); // filter out empty values
+}
 
 class App extends Component {
   constructor(props) {
@@ -48,6 +85,8 @@ class App extends Component {
       barValues: [],
       activeBarIndex: 0,
     };
+
+    this.changeCurrentBarValue = this.changeCurrentBarValue.bind(this);
   }
 
   componentDidMount() {
@@ -55,19 +94,23 @@ class App extends Component {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        this.setState({
-          buttonValues: data.buttons,
-          barValues: data.bars,
-        });
+        const buttonValues = filterOutNonNumbers(data.buttons).sort();
+        const barValues = filterOutNonNumbers(data.bars);
+
+        this.setState({ buttonValues, barValues });
       });
   }
 
-  increaseBarValue(amount) {
+  changeCurrentBarValue(amount) {
+    const { barValues, activeBarIndex } = this.state;
 
-  }
+    const newBarValues = barValues.slice(); // clone the array so we're not mutating state
+    const newCurrentBarValue = Math.max(0, newBarValues[activeBarIndex] + amount);
+    newBarValues[activeBarIndex] = newCurrentBarValue;
 
-  decreaseBarValue(amount) {
-
+    this.setState({
+      barValues: newBarValues,
+    })
   }
 
   render() {
@@ -77,8 +120,11 @@ class App extends Component {
 
         <h2 className="App__sub-title">By David Gilbertson</h2>
 
-        <BarWrapper
-          barValues={this.state.barValues}
+        <BarWrapper barValues={this.state.barValues} />
+
+        <ValueIncrementerWrapper
+          buttonValues={this.state.buttonValues}
+          changeCurrentBarValue={this.changeCurrentBarValue}
         />
       </main>
     );
