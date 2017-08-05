@@ -1,2 +1,41 @@
 .App {
+  width: 100%;
+  max-width: 400px;
+}
+
+.App__title {
+
+}
+
+.App__sub-title {
+  margin-bottom: 20px;
+}
+
+.BarWrapper {
+  margin-bottom: 20px;
+}
+
+.Bar {
+  position: relative;
+  transform: translate(0); /* create a new stacking context so z-index isn't global */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid grey;
+  height: 100px;
+}
+
+/* Note that width and color are defined as a style in the component */
+.Bar__fill {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #90caf9;
+  z-index: -1;
+}
+
+.Bar__fill--over-warning {
+  background: #ef5350;
 }
