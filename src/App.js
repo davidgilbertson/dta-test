@@ -3,6 +3,8 @@ import classnames from 'classnames';
 import './App.css';
 import { filterOutNonNumbers } from './utils';
 
+const API_URL = 'http://frontend-exercise.apps.staging.digital.gov.au/bars';
+
 const Bar = (props) => {
   // don't allow the width to go about 100%
   const barWidth = Math.min(props.value, 100);
@@ -11,15 +13,23 @@ const Bar = (props) => {
     width: `${barWidth}%`,
   };
 
+  const className = classnames(
+    'Bar',
+    { 'Bar--active': props.active },
+  );
+
   const barClassName = classnames(
     'Bar__fill',
     { 'Bar__fill--over-warning': props.value > 100 },
   );
 
   return (
-    <div className="Bar">
-      {props.value}
-
+    <div
+      role="button"
+      className={className}
+      onClick={() => props.changeActiveBar(props.pos)}
+    >
+      {props.value}%
       <div
         style={barFillStyle}
         className={barClassName}
@@ -29,21 +39,49 @@ const Bar = (props) => {
 };
 
 const BarWrapper = (props) => {
+  console.log('  --  >  App.js:39 > BarWrapper > props.activeBarIndex:', props.activeBarIndex);
   return (
     <div className="BarWrapper">
       {props.barValues.map((barValue, i) => (
         <Bar
           key={i} // the key must be the index since there could be two identical values
+          pos={i}
           value={barValue}
+          changeActiveBar={props.changeActiveBar}
+          active={i === props.activeBarIndex}
         />
       ))}
     </div>
   )
 };
 
+const ActiveBarSelector = (props) => {
+  if (!props.barValues || !props.barValues.length) return null;
+
+  return (
+    <select
+      className="ActiveBarSelector"
+      value={props.activeBarIndex}
+      onChange={(e) => {
+        props.changeActiveBar(Number(e.target.value))
+      }}
+    >
+      {props.barValues.map((bar, i) => (
+        <option
+          key={i} // the key must be the index since there could be two identical values
+          value={i}
+        >
+          {`Progress bar #${i + 1}`}
+        </option>
+      ))}
+    </select>
+  )
+};
+
 const ValueIncrementer = (props) => {
   return (
     <button
+      className="ValueIncrementer"
       onClick={() => props.changeCurrentBarValue(props.value)}
     >
       {props.value}
@@ -53,7 +91,7 @@ const ValueIncrementer = (props) => {
 
 const ValueIncrementerWrapper = (props) => {
   return (
-    <div className="BarWrapper">
+    <div className="ValueIncrementerWrapper">
       {props.buttonValues.map((buttonValue, i) => (
         <ValueIncrementer
           key={i} // the key must be the index since there could be two identical values
@@ -76,14 +114,16 @@ class App extends Component {
     };
 
     this.changeCurrentBarValue = this.changeCurrentBarValue.bind(this);
+    this.changeActiveBar = this.changeActiveBar.bind(this);
   }
 
   componentDidMount() {
-    fetch('http://frontend-exercise.apps.staging.digital.gov.au/bars')
+    fetch(API_URL)
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        const buttonValues = filterOutNonNumbers(data.buttons).sort();
+        const buttonValues = filterOutNonNumbers(data.buttons)
+          .sort((a, b) => a - b); // sort() alone doesn't sort negatives correctly
         const barValues = filterOutNonNumbers(data.bars);
 
         this.setState({ buttonValues, barValues });
@@ -104,6 +144,11 @@ class App extends Component {
     })
   }
 
+  changeActiveBar(activeBarIndex) {
+    console.log('  --  >  App.js:130 > changeActiveBar > activeBarIndex:', activeBarIndex);
+    this.setState({ activeBarIndex });
+  }
+
   render() {
     return (
       <main className="App">
@@ -111,12 +156,23 @@ class App extends Component {
 
         <h2 className="App__sub-title">By David Gilbertson</h2>
 
-        <BarWrapper barValues={this.state.barValues} />
+        <BarWrapper
+          barValues={this.state.barValues}
+          activeBarIndex={this.state.activeBarIndex}
+          changeActiveBar={this.changeActiveBar}
+        />
+
+        <ActiveBarSelector
+          activeBarIndex={this.state.activeBarIndex}
+          barValues={this.state.barValues}
+          changeActiveBar={this.changeActiveBar}
+        />
 
         <ValueIncrementerWrapper
           buttonValues={this.state.buttonValues}
           changeCurrentBarValue={this.changeCurrentBarValue}
         />
+
       </main>
     );
   }
