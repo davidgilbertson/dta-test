@@ -9,5 +9,5 @@ export function filterOutNonNumbers(buttonValues) {
 
     return value;
   })
-  .filter(value => !!value); // filter out empty values (items that were non-numbers)
+  .filter(value => value !== null); // filter out empty values (items that were non-numbers)
 }
