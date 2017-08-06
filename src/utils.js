@@ -6,7 +6,8 @@ export function filterOutNonNumbers(buttonValues) {
 
       return null;
     }
+
     return value;
   })
-  .filter(value => !!value); // filter out empty values
+  .filter(value => !!value); // filter out empty values (items that were non-numbers)
 }
