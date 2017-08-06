@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import './App.css';
+import { filterOutNonNumbers } from './utils';
 
 const Bar = (props) => {
+  // don't allow the width to go about 100%
   const barWidth = Math.min(props.value, 100);
 
   const barFillStyle = {
@@ -63,19 +65,6 @@ const ValueIncrementerWrapper = (props) => {
   )
 };
 
-function filterOutNonNumbers(buttonValues) {
-  return buttonValues
-    .map(value => {
-      if (isNaN(Number(value))) {
-        console.warn('Expected a number, but got', value);
-
-        return null;
-      }
-      return value;
-    })
-    .filter(value => !!value); // filter out empty values
-}
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -104,9 +93,11 @@ class App extends Component {
   changeCurrentBarValue(amount) {
     const { barValues, activeBarIndex } = this.state;
 
-    const newBarValues = barValues.slice(); // clone the array so we're not mutating state
-    const newCurrentBarValue = Math.max(0, newBarValues[activeBarIndex] + amount);
-    newBarValues[activeBarIndex] = newCurrentBarValue;
+    // clone the array so we're not mutating state
+    const newBarValues = barValues.slice();
+
+    // don't allow the value to go below zero
+    newBarValues[activeBarIndex] = Math.max(0, newBarValues[activeBarIndex] + amount);
 
     this.setState({
       barValues: newBarValues,
