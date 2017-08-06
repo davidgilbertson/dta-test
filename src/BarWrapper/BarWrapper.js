@@ -3,22 +3,19 @@ import PropTypes from 'prop-types';
 import Bar from '../Bar/Bar';
 import './BarWrapper.css';
 
-const BarWrapper = (props) => {
-  console.log('  --  >  App.js:39 > BarWrapper > props.activeBarIndex:', props.activeBarIndex);
-  return (
-    <div className="BarWrapper">
-      {props.barValues.map((barValue, i) => (
-        <Bar
-          key={i} // the key must be the index since there could be two identical values
-          pos={i}
-          value={barValue}
-          changeActiveBar={props.changeActiveBar}
-          active={i === props.activeBarIndex}
-        />
-      ))}
-    </div>
-  )
-};
+const BarWrapper = (props) => (
+  <div className="BarWrapper">
+    {props.barValues.map((barValue, i) => (
+      <Bar
+        key={i} // the key must be the index since there could be two identical values
+        pos={i}
+        value={barValue}
+        changeActiveBar={props.changeActiveBar}
+        active={i === props.activeBarIndex}
+      />
+    ))}
+  </div>
+);
 
 BarWrapper.propTypes = {
   activeBarIndex: PropTypes.number.isRequired,

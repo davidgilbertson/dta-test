@@ -7,10 +7,6 @@ const Bar = (props) => {
   // don't allow the width to go about 100%
   const barWidth = Math.min(props.value, 100);
 
-  const barFillStyle = {
-    width: `${barWidth}%`,
-  };
-
   const className = classnames(
     'Bar',
     { 'Bar--active': props.active },
@@ -29,7 +25,9 @@ const Bar = (props) => {
     >
       {props.value}%
       <div
-        style={barFillStyle}
+        style={{
+          width: `${barWidth}%`,
+        }}
         className={barClassName}
       />
     </div>
@@ -39,6 +37,7 @@ const Bar = (props) => {
 Bar.propTypes = {
   active: PropTypes.bool.isRequired,
   changeActiveBar: PropTypes.func.isRequired,
+  pos: PropTypes.number.isRequired,
   value: PropTypes.number.isRequired,
 };
 
