@@ -20,7 +20,7 @@ it('fetches data when mounted', () => {
   expect(getAppDataService).toHaveBeenCalledTimes(1);
 });
 
-it('whe BarWrapper calls #changeActiveBar changes the state', () => {
+it('when BarWrapper calls #changeActiveBar, it changes the state', () => {
   const component = shallow(<App />);
 
   expect(component.state().activeBarIndex).toBe(0);
@@ -30,7 +30,7 @@ it('whe BarWrapper calls #changeActiveBar changes the state', () => {
   expect(component.state().activeBarIndex).toBe(2);
 });
 
-it('when ActiveBarSelector calls #changeActiveBar changes the state', () => {
+it('when ActiveBarSelector calls #changeActiveBar, it changes the state', () => {
   const component = shallow(<App />);
 
   expect(component.state().activeBarIndex).toBe(0);
@@ -45,7 +45,7 @@ describe('when ValueIncrementerWrapper calls #changeCurrentBarValue', () => {
     const component = shallow(<App/>);
 
     component.setState({
-      activeBarIndex: 1,
+      activeBarIndex: 1, // the middle value
       barValues: [10, 20, 30],
     });
 
@@ -54,11 +54,11 @@ describe('when ValueIncrementerWrapper calls #changeCurrentBarValue', () => {
     expect(component.state().barValues).toEqual([10, 50, 30]);
   });
 
-  it('changes the state but does not allow for numbers less than zero', () => {
+  it('changes the state but does not allow numbers less than zero', () => {
     const component = shallow(<App/>);
 
     component.setState({
-      activeBarIndex: 1,
+      activeBarIndex: 1, // the middle value
       barValues: [10, 20, 30],
     });
 

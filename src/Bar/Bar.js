@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import './Bar.css';
 
 const Bar = (props) => {
-  // don't allow the width to go about 100%
+  // don't allow the width to go over 100%
   const barWidth = Math.min(props.value, 100);
 
   const className = classnames(
@@ -30,9 +30,7 @@ const Bar = (props) => {
     >
       {props.value}%
       <div
-        style={{
-          width: `${barWidth}%`,
-        }}
+        style={{ width: `${barWidth}%` }}
         className={barClassName}
       />
     </div>

@@ -17,5 +17,5 @@ it('filterOutNonNumbers should filter out non numbers', () => {
     Infinity,
     12,
     0,
-  ])
+  ]);
 });

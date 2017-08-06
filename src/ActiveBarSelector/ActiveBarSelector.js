@@ -7,6 +7,7 @@ const ActiveBarSelector = (props) => (
     className="ActiveBarSelector"
     value={props.activeBarIndex}
     onChange={(e) => {
+      // we can trust here that e.target.value is a number
       props.changeActiveBar(Number(e.target.value))
     }}
   >
@@ -15,6 +16,7 @@ const ActiveBarSelector = (props) => (
         key={i} // the key must be the index since there could be two identical values
         value={i}
       >
+        {/* define a friendly name and use 1-based numbering */}
         {`Progress bar #${i + 1}`}
       </option>
     ))}

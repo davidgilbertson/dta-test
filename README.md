@@ -12,6 +12,9 @@ a CSS file and a test file.
 There is also a `services.js` file that houses the services to fetch the data, and a `utils.js`
 file that contains a util to cleanse the incoming data.
 
+## Vanilla CSS
+I haven't used Sass for this project for the sake of simplicity. But usually would.
+
 ## Browser support
 Tested on:
 - IE11

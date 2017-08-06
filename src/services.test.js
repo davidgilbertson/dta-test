@@ -14,19 +14,20 @@ jest.mock('./utils', () => ({
   filterOutNonNumbers: jest.fn((arg) => arg),
 }));
 
-it('should fetch the app data', () => {
-  return getAppDataService().then((data) => {
-
+// note: this is an async test
+it('should fetch the app data', () => (
+  getAppDataService().then((data) => {
     expect(data).toEqual({
       buttonValues: responseMock.buttons,
       barValues: responseMock.bars,
     });
-  });
-});
+  })
+));
 
 it('should attempt to filter out non numbers', () => {
   filterOutNonNumbers.mockClear();
 
+  // note: this is an async test
   return getAppDataService().then(() => {
     expect(filterOutNonNumbers).toHaveBeenCalledTimes(2);
   });
@@ -40,6 +41,7 @@ it('should sort the returned button values', () => {
     }),
   }));
 
+  // note: this is an async test
   return getAppDataService().then((data) => {
     expect(data).toEqual({
       buttonValues: [-50, -45, 0, 10, 20],

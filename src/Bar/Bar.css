@@ -1,10 +1,9 @@
 .Bar {
   position: relative;
-  transform: translate(0); /* create a new stacking context so z-index isn't global */
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 10px;
   border: 1px solid #aaa;
   height: 70px;
   font-size: 20px;
@@ -20,7 +19,7 @@
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Note that width and color are defined as a style in the component */
+/* Note that the width is defined as a style in the component */
 .Bar__fill {
   position: absolute;
   height: 100%;

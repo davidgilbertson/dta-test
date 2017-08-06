@@ -104,6 +104,7 @@ it('changes the active bar when clicked', () => {
   );
 
   component.find('.Bar').simulate('click');
+
   expect(changeActiveBarMock).toHaveBeenCalledTimes(1)
   expect(changeActiveBarMock).toHaveBeenCalledWith(2)
 });
