@@ -49,7 +49,7 @@ it('calls #changeActiveBar when clicked', () => {
     />
   );
 
-  component.find('select').simulate('change', {
+  component.find('.ActiveBarSelector__select').simulate('change', {
     target: {
       value: '11',
     },
