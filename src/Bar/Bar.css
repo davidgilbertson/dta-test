@@ -1,0 +1,30 @@
+.Bar {
+  position: relative;
+  transform: translate(0); /* create a new stacking context so z-index isn't global */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #aaa;
+  height: 70px;
+  font-size: 20px
+}
+
+.Bar--active {
+  border-color: #555;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Note that width and color are defined as a style in the component */
+.Bar__fill {
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  background: #90caf9;
+  z-index: -1;
+}
+
+.Bar__fill--over-warning {
+  background: #ef5350;
+}
