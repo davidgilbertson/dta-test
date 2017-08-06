@@ -20,8 +20,13 @@ const Bar = (props) => {
   return (
     <div
       role="button"
+      tabIndex="0"
       className={className}
       onClick={() => props.changeActiveBar(props.pos)}
+      onKeyDown={(e) => {
+        // for accessibility, select this item when Enter is pressed
+        if (e.keyCode === 13) props.changeActiveBar(props.pos)
+      }}
     >
       {props.value}%
       <div

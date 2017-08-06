@@ -10,6 +10,11 @@
   font-size: 20px;
 }
 
+.Bar:focus {
+  /* for accessibility, add an outline on focus */
+  outline: 1px solid #ffc107;
+}
+
 .Bar--active {
   border-color: #555;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
